@@ -1,23 +1,108 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Tailored commercial cleaning and facility management for Australian businesses." } = Astro.props;
+---
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{title} — Millbrooke</title>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/png" href="/assets/millbrooke-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles/global.css" />
+ <script is:inline src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script is:inline>
+  window.tailwind = window.tailwind || {};
+  tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            background: '#F0F2F5',
+            foreground: '#192e47',
+            primary: { DEFAULT: '#192e47', foreground: '#FFFFFF' },
+            accent:  { DEFAULT: '#4A6FA5', foreground: '#FFFFFF' },
+            card:    { DEFAULT: '#FFFFFF', foreground: '#192e47' },
+            muted:   { DEFAULT: '#F0F2F5', foreground: '#6B7A93' },
+            border:  '#DDE2EA',
+          },
+          fontFamily: {
+            sans: ['Montserrat','ui-sans-serif','system-ui','sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-foreground antialiased">
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 text-white transition-all duration-300 bg-gradient-to-b from-[#192e47cc] via-[#192e4780] to-transparent">
+  <style>
+    #site-header.scrolled{background:rgba(25,46,71,.95);backdrop-filter:blur(8px);box-shadow:0 10px 30px rgba(0,0,0,.2)}
+    #menu-drawer{transform:translateX(100%);transition:transform .5s cubic-bezier(0.22,1,0.36,1)}
+    #menu-drawer.open{transform:translateX(0)}
+    #menu-backdrop{opacity:0;pointer-events:none;transition:opacity .3s}
+    #menu-backdrop.open{opacity:1;pointer-events:auto}
+  </style>
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
+    <a href="/" class="flex items-center">
+      <img src="/assets/millbrooke-logo.png" alt="Millbrooke" class="h-9 md:h-11 w-auto object-contain" />
+    </a>
+    <button id="menu-btn" type="button" aria-label="Open menu" class="group flex items-center gap-3 text-xs font-medium uppercase tracking-[0.24em] text-white/85 transition-colors hover:text-white">
+      <span id="menu-label" class="hidden sm:inline">Menu</span>
+      <span id="menu-icon-open"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></span>
+      <span id="menu-icon-close" style="display:none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg></span>
+    </button>
+  </div>
+</header>
+
+<div id="menu-backdrop" class="fixed inset-0 z-40 bg-primary/60 backdrop-blur-sm"></div>
+<aside id="menu-drawer" class="fixed right-0 top-0 z-40 h-full w-full max-w-md bg-primary text-white shadow-2xl">
+  <div class="flex h-full flex-col px-10 pb-12 pt-28">
+    <p class="text-[10px] uppercase tracking-[0.42em] text-white/40">Navigate</p>
+    <nav class="mt-8 flex flex-col gap-2">
+      <a href="/compliance-standards" class="group block border-b border-white/10 py-5 text-2xl font-semibold tracking-tight text-white/90 transition-all duration-500 hover:pl-2 hover:text-white md:text-3xl"><span class="flex items-baseline gap-4"><span class="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30">01</span><span>Compliance & Standards</span></span></a>
+      <a href="/green-cleaning-management" class="group block border-b border-white/10 py-5 text-2xl font-semibold tracking-tight text-white/90 transition-all duration-500 hover:pl-2 hover:text-white md:text-3xl"><span class="flex items-baseline gap-4"><span class="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30">02</span><span>Green Cleaning & Management</span></span></a>
+      <a href="/people-culture" class="group block border-b border-white/10 py-5 text-2xl font-semibold tracking-tight text-white/90 transition-all duration-500 hover:pl-2 hover:text-white md:text-3xl"><span class="flex items-baseline gap-4"><span class="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30">03</span><span>People & Culture</span></span></a>
+      <a href="/contact" class="group block border-b border-white/10 py-5 text-2xl font-semibold tracking-tight text-white/90 transition-all duration-500 hover:pl-2 hover:text-white md:text-3xl"><span class="flex items-baseline gap-4"><span class="text-[10px] font-mono uppercase tracking-[0.3em] text-white/30">04</span><span>Contact</span></span></a>
+    </nav>
+    <div class="mt-auto space-y-2 pt-10 text-sm text-white/60">
+      <p class="text-[10px] uppercase tracking-[0.42em] text-white/40">Get in touch</p>
+      <a href="mailto:admin@millbrooke.com.au" class="block text-white/85 hover:text-white">admin@millbrooke.com.au</a>
+    </div>
+  </div>
+</aside>
+
+<slot />
+
+<footer class="bg-primary text-white">
+  <div class="mx-auto grid max-w-7xl gap-10 px-6 py-14 lg:grid-cols-3 lg:px-10">
+    <div>
+      <a href="/" class="flex items-center"><img src="/assets/millbrooke-logo.png" alt="Millbrooke" class="h-10 md:h-12 w-auto object-contain" /></a>
+      <p class="mt-4 text-sm uppercase tracking-[0.22em] text-white/70">Compliance. Sustainability. People.</p>
+    </div>
+    <nav class="flex flex-col gap-2 text-sm text-white/70">
+      <a href="/compliance-standards" class="hover:text-white">Compliance & Standards</a>
+      <a href="/green-cleaning-management" class="hover:text-white">Green Cleaning & Management</a>
+      <a href="/people-culture" class="hover:text-white">People & Culture</a>
+      <a href="/contact" class="hover:text-white">Contact</a>
+    </nav>
+    <div class="text-sm text-white/70">
+      <p>Contact</p>
+      <a href="mailto:admin@millbrooke.com.au" class="text-white hover:underline">admin@millbrooke.com.au</a>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="mx-auto max-w-7xl px-6 py-5 text-xs text-white/60 lg:px-10">© 2025 Millbrooke</div>
+  </div>
+</footer>
+
+<script is:inline src="/scripts/app.js"></script>
+</body>
+</html>

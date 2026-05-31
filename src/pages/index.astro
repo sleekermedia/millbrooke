@@ -1,11 +1,247 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
+<Layout title="Home" description="Tailored commercial cleaning and facility management for Australian businesses.">
 
-<Layout>
-	<Welcome />
+<main>
+
+<section class="relative isolate overflow-hidden bg-primary text-white flex flex-col" style="min-height:100vh">
+  <div class="absolute inset-0 -z-10">
+    <div class="mb-kenburns absolute inset-0 bg-cover bg-center" style="background-image:url('/assets/millbrooke-home.jpg')"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-[#192e47e6] via-[#192e47bf] to-[#192e4766]"></div>
+    <div class="mb-grid-overlay absolute inset-0 opacity-40"></div>
+  </div>
+  <div class="mx-auto max-w-7xl px-6 lg:px-10 w-full flex-1 flex flex-col justify-center py-32">
+    <div class="mb-fade">
+      <p class="text-xs uppercase tracking-[0.42em] text-white/70">Millbrooke — Commercial Cleaning & Facility Management</p>
+      <h1 class="mt-6 max-w-3xl font-semibold leading-[1.05] tracking-tight" style="font-size:clamp(2.75rem,8vw,88px)">Built <span class="text-white/50">around</span> your business.</h1>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-white/75">Tailored commercial cleaning and facility management for Australian businesses that need a partner they can rely on.</p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="/contact" class="inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-primary transition-all hover:shadow-2xl">Start a Conversation <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></a>
+        <a href="/compliance-standards" class="inline-flex items-center gap-3 rounded-full border border-white/30 px-8 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-white transition-all hover:border-white">Explore Our Approach</a>
+      </div>
+    </div>
+  </div>
+  <div class="border-t border-white/10 mt-auto">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
+      <span class="text-[11px] uppercase tracking-[0.32em] text-white/40">Scroll</span>
+      <div class="flex gap-8 text-[11px] uppercase tracking-[0.32em] text-white/50">
+        <a href="/compliance-standards" class="hover:text-white">Compliance</a>
+        <a href="/green-cleaning-management" class="hover:text-white">Sustainability</a>
+        <a href="/people-culture" class="hover:text-white">People</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="overflow-hidden bg-primary py-5">
+  <div class="mb-marquee flex gap-10 whitespace-nowrap text-[11px] font-semibold uppercase tracking-[0.32em] text-white/50">
+    <span>Commercial Cleaning</span><span class="text-white/20">◆</span>
+    <span>Industrial</span><span class="text-white/20">◆</span>
+    <span>Healthcare</span><span class="text-white/20">◆</span>
+    <span>Education</span><span class="text-white/20">◆</span>
+    <span>Construction</span><span class="text-white/20">◆</span>
+    <span>Events</span><span class="text-white/20">◆</span>
+    <span>Maintenance</span><span class="text-white/20">◆</span>
+    <span>Real Estate</span><span class="text-white/20">◆</span>
+    <span>Commercial Cleaning</span><span class="text-white/20">◆</span>
+    <span>Industrial</span><span class="text-white/20">◆</span>
+    <span>Healthcare</span><span class="text-white/20">◆</span>
+    <span>Education</span><span class="text-white/20">◆</span>
+    <span>Construction</span><span class="text-white/20">◆</span>
+    <span>Events</span><span class="text-white/20">◆</span>
+    <span>Maintenance</span><span class="text-white/20">◆</span>
+    <span>Real Estate</span><span class="text-white/20">◆</span>
+  </div>
+</div>
+
+<section class="bg-background py-24 lg:py-32">
+  <div class="mx-auto grid max-w-7xl gap-16 px-6 lg:grid-cols-2 lg:items-center lg:px-10">
+    <div class="mb-fade">
+      <p class="text-xs uppercase tracking-[0.42em] text-accent">About Millbrooke</p>
+      <h2 class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-primary md:text-5xl">A real partner — there when you need us most.</h2>
+      <div class="mt-6 h-px w-16 bg-primary/20"></div>
+      <div class="mt-8 space-y-5 text-base leading-relaxed text-foreground/80">
+        <p>Millbrooke helps Australian businesses keep their workplaces clean, compliant, and running smoothly. We work alongside facility managers, building owners, and operations teams as a genuine extension of their business.</p>
+        <p>From daily commercial cleaning to specialist facility services, every site is led by people who take pride in the detail — and backed by systems built for accountability, safety, and consistency.</p>
+      </div>
+    </div>
+    <div class="mb-fade grid grid-cols-2 gap-4" data-delay="120">
+      <div class="h-64 rounded-sm bg-cover bg-center lg:h-80" style="background-image:url('/assets/compliance-facility.jpg')"></div>
+      <div class="h-64 rounded-sm bg-cover bg-center lg:h-80" style="background-image:url('/assets/green-facility.jpg')"></div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-card py-24 lg:py-28">
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+  <div class="mb-fade">
+  <p class="text-xs uppercase tracking-[0.42em] text-accent">Services</p>
+  <h2 class="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight text-primary md:text-4xl">Specialists across every facility discipline.</h2>
+  <p class="mt-6 max-w-2xl text-base leading-relaxed text-foreground/70">Millbrooke has an attention to detail that sets every service apart. Across all ten disciplines, our teams bring the same standards of care, safety, and consistency to your site — backed by management systems built to keep you informed and your facility running without interruption.</p>
+</div>
+<div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-l border-primary/10">
+  {[
+    {n:'01',t:'Facility Services Management',d:'Integrated management of every facility touchpoint.',img:'/assets/facility-services-management.jpg',icon:'M3 21h18M3 10h18M3 7l9-4 9 4M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11'},
+    {n:'02',t:'Commercial Cleaning',d:'Daily, scheduled, and one-off office cleaning programs.',img:'/assets/commercial-cleaning.jpg',icon:'M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6z'},
+    {n:'03',t:'Industrial Cleaning',d:'Heavy-duty cleaning for warehouses, plants, and depots.',img:'/assets/industrial-cleaning.jpg',icon:'M2 20h20M4 20V10l8-6 8 6v10'},
+    {n:'04',t:'Real Estate',d:'Make-ready, periodic, and tenancy-end cleaning services.',img:'/assets/real-estate.jpg',icon:'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'},
+    {n:'05',t:'Education',d:'Safe, hygienic environments for schools and campuses.',img:'/assets/education.jpg',icon:'M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c3 3 9 3 12 0v-5'},
+    {n:'06',t:'Health & Aged Care',d:'Infection-control cleaning to clinical standards.',img:'/assets/health-aged-care.jpg',icon:'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'},
+    {n:'07',t:'Construction Sites',d:'Builders cleans, handover details, and site maintenance.',img:'/assets/construction-sites.jpg',icon:'M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'},
+    {n:'08',t:'Specialised Event Cleaning',d:'Pre, post, and live-event presentation services.',img:'/assets/specialised-event-cleaning.jpg',icon:'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'},
+    {n:'09',t:'Waste Management',d:'Responsible waste streams, recycling, and reporting.',img:'/assets/waste-management.jpg',icon:'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'},
+    {n:'10',t:'Maintenance',d:'Reactive and preventative facility maintenance support.',img:'/assets/maintenance.jpg',icon:'M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z'},
+  ].map(s => (
+    <div class="group relative overflow-hidden border-b border-r border-primary/10 bg-background p-8 transition-all duration-500 cursor-default" style="min-height:200px">
+      <div class="absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={`background-image:url('${s.img}')`}></div>
+      <div class="absolute inset-0 bg-primary/80 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+      <div class="relative z-10">
+        <div class="flex items-start justify-between">
+          <span class="flex h-12 w-12 items-center justify-center rounded-full border border-primary/20 text-primary transition-all duration-300 group-hover:border-white/30 group-hover:text-white">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d={s.icon}/>
+            </svg>
+          </span>
+          <span class="text-[10px] font-mono tracking-[0.3em] text-primary/30 transition-colors group-hover:text-white/30">{s.n}</span>
+        </div>
+        <h3 class="mt-8 text-base font-semibold text-primary transition-colors duration-300 group-hover:text-white">{s.t}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-foreground/60 transition-colors duration-300 group-hover:text-white/70">{s.d}</p>
+      </div>
+    </div>
+  ))}
+</div>
+  </div>
+</section>
+
+<section class="bg-primary text-white">
+  <div class="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+    <div class="mb-fade grid grid-cols-2 gap-y-10 sm:grid-cols-4">
+      {[
+        {v:'10+', l:'Service Disciplines'},
+        {v:'100%', l:'WHS Compliant'},
+        {v:'24/7', l:'Operational Support'},
+        {v:'AU', l:'Locally Owned'},
+      ].map(stat => (
+        <div class="border-l border-white/15 pl-6">
+          <p class="text-5xl font-light tracking-tight lg:text-6xl">{stat.v}</p>
+          <p class="mt-3 text-[11px] uppercase tracking-[0.3em] text-white/50">{stat.l}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="bg-background py-24 lg:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="mb-fade">
+      <p class="text-xs uppercase tracking-[0.42em] text-accent">Three Pillars</p>
+      <h2 class="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight text-primary md:text-5xl">How we deliver work you can trust.</h2>
+    </div>
+    <div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+      {[
+        {n:'Pillar 01', t:'Compliance & Standards', d:'WHS-compliant cleaning with transparent audit reporting and continual improvement.', img:'/assets/compliance-facility.jpg', href:'/compliance-standards'},
+        {n:'Pillar 02', t:'Green Cleaning & Management', d:'Eco-conscious programs that protect your people and reduce your footprint.', img:'/assets/green-facility.jpg', href:'/green-cleaning-management'},
+        {n:'Pillar 03', t:'People & Culture', d:'A diverse, supported workforce — because employee satisfaction is the strategy.', img:'/assets/construction-sites.jpg', href:'/people-culture'},
+      ].map((p, i) => (
+        <a href={p.href} class="mb-fade group relative flex min-h-[480px] flex-col justify-between overflow-hidden rounded-2xl p-8" data-delay={i * 120}>
+          <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style={`background-image:url('${p.img}')`}></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/70 to-primary/10"></div>
+          <span class="relative z-10 text-[11px] uppercase tracking-[0.3em] text-white/60">{p.n}</span>
+          <div class="relative z-10">
+            <h3 class="text-2xl font-semibold leading-tight tracking-tight text-white">{p.t}</h3>
+            <p class="mt-3 max-w-xs text-sm leading-relaxed text-white/70">{p.d}</p>
+            <span class="mt-6 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-white">
+              Learn More
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300 group-hover:translate-x-1"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+<section class="relative isolate overflow-hidden bg-primary text-white">
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image:url('/assets/facility-services-management.jpg')"></div>
+    <div class="absolute inset-0 bg-primary/95"></div>
+  </div>
+  <div class="relative mx-auto grid max-w-7xl gap-12 px-6 py-24 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:py-32">
+
+    <div class="mb-fade">
+      <p class="text-xs uppercase tracking-[0.42em] text-white/60">Contact</p>
+      <h2 class="mt-4 max-w-md text-3xl font-semibold leading-tight tracking-tight md:text-5xl">Let's tailor a programme to your facility.</h2>
+      <p class="mt-6 max-w-md text-base leading-relaxed text-white/70">Tell us about your business and we'll be in touch to design a cleaning and facility management plan that fits.</p>
+      <div class="mt-10 h-px w-16 bg-white/20"></div>
+      <div class="mt-8 space-y-5 text-sm text-white/80">
+        <a href="mailto:admin@millbrooke.com.au" class="flex items-center gap-4 transition-colors hover:text-white">
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+          admin@millbrooke.com.au
+        </a>
+      
+        <div class="flex items-center gap-4">
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/20"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          Sydney, Australia — servicing facilities Sydney-wide
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-fade rounded-2xl border border-white/15 bg-white/5 p-8 lg:p-10" data-delay="120">
+      <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="space-y-8">
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+        <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+        <div class="grid gap-8 sm:grid-cols-2">
+          <div>
+            <label for="cf-name" class="block text-[11px] uppercase tracking-[0.28em] text-white/60">Name</label>
+            <input id="cf-name" name="name" type="text" required class="mb-field" />
+          </div>
+          <div>
+            <label for="cf-email" class="block text-[11px] uppercase tracking-[0.28em] text-white/60">Email Address</label>
+            <input id="cf-email" name="email" type="email" required class="mb-field" />
+          </div>
+          <div>
+            <label for="cf-phone" class="block text-[11px] uppercase tracking-[0.28em] text-white/60">Phone</label>
+            <input id="cf-phone" name="phone" type="tel" class="mb-field" />
+          </div>
+          <div>
+            <label for="cf-company" class="block text-[11px] uppercase tracking-[0.28em] text-white/60">Company</label>
+            <input id="cf-company" name="company" type="text" class="mb-field" />
+          </div>
+        </div>
+
+        <div>
+          <label for="cf-service" class="block text-[11px] uppercase tracking-[0.28em] text-white/60">Service</label>
+          <select id="cf-service" name="service" class="mb-field">
+            <option value="" disabled selected>Select a service</option>
+            <option>Facility Services Management</option>
+            <option>Commercial Cleaning</option>
+            <option>Industrial Cleaning</option>
+            <option>Real Estate</option>
+            <option>Education</option>
+            <option>Health &amp; Aged Care</option>
+            <option>Construction Sites</option>
+            <option>Specialised Event Cleaning</option>
+            <option>Waste Management</option>
+            <option>Maintenance</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="cf-message" class="block text-[11px] uppercase tracking-[0.28em] text-white/60">Message</label>
+          <textarea id="cf-message" name="message" rows="4" class="mb-field"></textarea>
+        </div>
+
+        <button type="submit" class="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-xs font-semibold uppercase tracking-[0.28em] text-primary transition-all hover:shadow-2xl">
+          Send Enquiry
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </button>
+      </form>
+    </div>
+
+  </div>
+</section>
+</main>
 </Layout>

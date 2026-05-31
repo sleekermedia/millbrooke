@@ -1,0 +1,35 @@
+:root{
+  --primary: 214 48% 19%;
+  --bg: 220 20% 95%;
+  --accent: 214 38% 47%;
+  --border: 220 20% 89%;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Montserrat',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--navy);margin:0}
+h1,h2,h3,h4{font-family:'Montserrat',ui-sans-serif,system-ui,sans-serif}
+
+.mb-fade{opacity:0;transform:translateY(16px);transition:opacity .7s ease-out, transform .7s ease-out}
+.mb-fade.is-in{opacity:1;transform:translateY(0)}
+
+@keyframes mb-slow-zoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+.mb-kenburns{animation:mb-slow-zoom 14s ease-out both}
+
+.mb-grid-overlay{
+  background-image:linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size:64px 64px;
+}
+
+@keyframes mb-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mb-marquee{animation:mb-marquee 45s linear infinite}
+
+.mb-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#fff;color:var(--navy);padding:14px 22px;border-radius:9999px;box-shadow:0 10px 30px rgba(0,0,0,.15);font-size:13px;font-weight:600;opacity:0;transition:opacity .3s, transform .3s;z-index:100;pointer-events:none}
+.mb-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.mb-field{width:100%;border:0;border-bottom:1px solid rgba(255,255,255,.25);background:transparent;padding:12px 0;color:#fff;font-size:14px;outline:none;transition:border-color .2s}
+.mb-field:focus{border-color:#fff}
+.mb-field::placeholder{color:rgba(255,255,255,.4)}
+select.mb-field{appearance:none}
+select.mb-field option{background:var(--navy);color:#fff}
+
+body.menu-open{overflow:hidden}
+.bg-fixed{background-attachment:fixed}
