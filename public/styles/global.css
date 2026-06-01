@@ -28,8 +28,8 @@ h1,h2,h3,h4{font-family:'Montserrat',ui-sans-serif,system-ui,sans-serif}
 .mb-field{width:100%;border:0;border-bottom:1px solid rgba(255,255,255,.25);background:transparent;padding:12px 0;color:#fff;font-size:14px;outline:none;transition:border-color .2s}
 .mb-field:focus{border-color:#fff}
 .mb-field::placeholder{color:rgba(255,255,255,.4)}
-select.mb-field{appearance:none}
-select.mb-field option{background:var(--navy);color:#fff}
+select.mb-field { appearance: none; color-scheme: dark; }
+select.mb-field option { background-color: #192e47; color: #fff; }
 
 body.menu-open{overflow:hidden}
 .bg-fixed{background-attachment:fixed}
