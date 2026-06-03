@@ -53,20 +53,31 @@ if(location.hash){
   if(target) setTimeout(()=> target.scrollIntoView({behavior:'smooth'}), 200);
 }
 
-// Contact form
+// Contact form — submits to the Cloudflare Pages Function at /api/contact
 function wireForm(formId){
   const form = document.getElementById(formId);
   if(!form) return;
-  form.addEventListener('submit', e=>{
+  form.addEventListener('submit', async e=>{
     e.preventDefault();
     const btn = form.querySelector('button[type=submit]');
-    const original = btn.textContent;
-    btn.disabled = true; btn.textContent = 'Sending…';
-    setTimeout(()=>{
-      form.reset();
-      btn.disabled = false; btn.textContent = original;
-      showToast("Thanks — we'll be in touch shortly.");
-    }, 400);
+    const original = btn ? btn.innerHTML : '';
+    if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+    try {
+      const res = await fetch('/api/contact', { method:'POST', body: new FormData(form) });
+      const data = await res.json();
+      if(data.ok){
+        form.reset();
+        showToast("Thanks — we'll be in touch shortly.");
+      } else {
+        showToast("Sorry, something went wrong. Please try again or email us directly.");
+        console.error('Form error:', data);
+      }
+    } catch(err){
+      showToast("Sorry, something went wrong. Please try again or email us directly.");
+      console.error('Form submit failed:', err);
+    } finally {
+      if(btn){ btn.disabled = false; btn.innerHTML = original; }
+    }
   });
 }
 wireForm('contact-form');
