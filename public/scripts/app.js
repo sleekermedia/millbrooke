@@ -68,6 +68,7 @@ function wireForm(formId){
       if(data.ok){
         form.reset();
         showToast("Thanks — we'll be in touch shortly.");
+        if(typeof fbq === 'function') fbq('track', 'Lead');
       } else {
         showToast("Sorry, something went wrong. Please try again or email us directly.");
         console.error('Form error:', data);
