@@ -78,6 +78,7 @@ function wireForm(formId){
       console.error('Form submit failed:', err);
     } finally {
       if(btn){ btn.disabled = false; btn.innerHTML = original; }
+      if(window.turnstile) window.turnstile.reset();
     }
   });
 }
