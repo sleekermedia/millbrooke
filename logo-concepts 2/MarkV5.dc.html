@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<svg viewBox="{{ vb }}" width="100%" height="100%" style="display:block;overflow:visible" fill="none">
+  <defs>
+    <clipPath id="{{ cid }}"><circle cx="50" cy="50" r="41"></circle></clipPath>
+    <clipPath id="{{ cid2 }}"><rect x="0" y="0" width="29" height="100"></rect></clipPath>
+  </defs>
+  <path d="{{ rays }}" fill="{{ fg }}"></path>
+  <g clip-path="url(#{{ cid }})" stroke="{{ accent }}" stroke-width="4">
+    <path d="{{ waves }}"></path>
+    <sc-if value="{{ withText }}" hint-placeholder-val="{{ false }}">
+      <path d="{{ topWave }}" clip-path="url(#{{ cid2 }})"></path>
+    </sc-if>
+    <sc-if value="{{ noText }}" hint-placeholder-val="{{ true }}">
+      <path d="{{ topWave }}"></path>
+    </sc-if>
+  </g>
+  <sc-if value="{{ withText }}" hint-placeholder-val="{{ false }}">
+    <text x="33" y="60.5" textLength="142" lengthAdjust="spacing" style="font-family:Montserrat,sans-serif;font-size:15px;font-weight:500" fill="{{ textFg }}">Millbrooke<tspan dx="4" style="font-weight:300" fill="{{ textAccent }}">Group</tspan></text>
+  </sc-if>
+</svg>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:400,&quot;height&quot;:200},&quot;text&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;fg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#192e47&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#4A6FA5&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;textFg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#192e47&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;textAccent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#4A6FA5&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  cid = 'm5' + Math.random().toString(36).slice(2, 8);
+  renderVals() {
+    const fg = this.props.fg ?? '#192e47';
+    const withText = !!this.props.text;
+    const cx = 50, cy = 50, f = n => n.toFixed(2);
+    const pt = (r, d) => { const t = d * Math.PI / 180; return f(cx + r * Math.cos(t)) + ',' + f(cy - r * Math.sin(t)); };
+    const wedge = (a, hw, r1, r2) => `M${pt(r1, a - hw)}L${pt(r2, a - hw)}A${r2},${r2} 0 0 0 ${pt(r2, a + hw)}L${pt(r1, a + hw)}A${r1},${r1} 0 0 1 ${pt(r1, a - hw)}Z`;
+    const angles = withText ? [180, 157.5, 135, 112.5, 90, 67.5, 45, 22.5] : [180, 157.5, 135, 112.5, 90, 67.5, 45, 22.5, 0];
+    let rays = '';
+    angles.forEach(a => { rays += wedge(a, 5, 21, 41); });
+    const wave = y => { let d = `M-10,${y}`; for (let x = -10; x < 110; x += 20) d += `q5,-2.4 10,0q5,2.4 10,0`; return d; };
+    const waves = wave(71) + wave(79.5) + wave(88);
+    return {
+      vb: withText ? '8 8 172 84' : '8 8 84 84',
+      cid: this.cid, cid2: this.cid + 'b', fg, accent: this.props.accent ?? fg,
+      textFg: this.props.textFg ?? fg, textAccent: this.props.textAccent ?? (this.props.accent ?? fg),
+      rays, waves, topWave: wave(62.5), withText, noText: !withText
+    };
+  }
+}
+</script>
+</body>
+</html>

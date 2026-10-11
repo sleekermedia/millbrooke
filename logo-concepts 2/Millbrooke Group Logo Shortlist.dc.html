@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="stylesheet" href="_ds/millbrooke-design-system-c9f3d71f-4abc-4ea2-b747-74dfa4ff7b80/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/millbrooke-design-system-c9f3d71f-4abc-4ea2-b747-74dfa4ff7b80/tokens/colors.css">
+  <style>body{margin:0;background:#F0F2F5;font-family:Montserrat,sans-serif;color:#192e47}a{color:#4A6FA5}a:hover{color:#192e47}</style>
+</helmet>
+<section data-screen-label="Turn 5" style="padding:80px;display:flex;flex-direction:column;gap:40px;border-bottom:1px solid #DDE2EA">
+  <div style="display:flex;flex-direction:column;gap:14px;max-width:900px">
+    <span style="font-size:12px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:#4A6FA5">Millbrooke Group — Logo Exploration 05</span>
+    <h1 style="margin:0;font-size:56px;font-weight:600;letter-spacing:-.025em;line-height:1.05">The client draft, <span style="color:#6B7A93">redrawn.</span></h1>
+    <p style="margin:0;font-size:18px;line-height:1.6;color:rgba(25,46,71,.7);text-wrap:pretty">The same composition as the draft: the wordmark runs out from the sun along the horizon, with rays above and water below. The rays are now precise tapered wedges at even angles, and the waves are identical, evenly spaced and cut cleanly to the circle. For icons, the mark closes up into a full symmetrical sun.</p>
+  </div>
+  <div id="5a" style="display:flex;flex-direction:column;gap:16px;max-width:1568px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="font-size:13px;font-weight:700;background:#192e47;color:#FFFFFF;padding:5px 12px;border-radius:999px">5a</span>
+      <span style="font-size:20px;font-weight:600">Client Sunrise</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:16px">
+      <div style="height:340px;background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;display:flex;align-items:center;justify-content:center;padding:24px">
+        <div style="width:100%;max-width:440px;aspect-ratio:172/84"><dc-import name="MarkV5" text="{{ true }}" fg="#192e47" accent="{{ accL }}" text-fg="#192e47" text-accent="#4A6FA5" hint-size="100%,100%"></dc-import></div>
+      </div>
+      <div style="height:340px;background:#192e47;border-radius:2px;display:flex;align-items:center;justify-content:center;padding:24px">
+        <div style="width:100%;max-width:440px;aspect-ratio:172/84"><dc-import name="MarkV5" text="{{ true }}" fg="#FFFFFF" accent="{{ accD }}" text-fg="#FFFFFF" text-accent="rgba(255,255,255,0.7)" hint-size="100%,100%"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+      <div style="height:200px;background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;display:flex;align-items:center;justify-content:center;padding:16px">
+        <div style="width:100%;max-width:220px;aspect-ratio:172/84"><dc-import name="MarkV5" text="{{ true }}" fg="#192e47" accent="{{ accL }}" text-fg="#192e47" text-accent="#4A6FA5" hint-size="100%,100%"></dc-import></div>
+      </div>
+      <div style="height:200px;background:#192e47;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:110px;height:110px;flex-shrink:0"><dc-import name="MarkV5" fg="#FFFFFF" accent="{{ accD }}" hint-size="110px,110px"></dc-import></div></div>
+      <div style="height:200px;background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;display:flex;align-items:center;justify-content:center;gap:16px">
+        <div style="width:32px;height:32px;flex-shrink:0"><dc-import name="MarkV5" fg="#192e47" accent="{{ accL }}" hint-size="32px,32px"></dc-import></div>
+        <div style="width:16px;height:16px;flex-shrink:0"><dc-import name="MarkV5" fg="#192e47" accent="#192e47" hint-size="16px,16px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section data-screen-label="Shortlist" style="padding:80px;display:flex;flex-direction:column;gap:56px">
+  <div style="display:flex;flex-direction:column;gap:14px;max-width:900px">
+    <span style="font-size:12px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:#4A6FA5">Millbrooke Group — Logo Shortlist</span>
+    <h1 style="margin:0;font-size:56px;font-weight:600;letter-spacing:-.025em;line-height:1.05">Six directions, <span style="color:#6B7A93">side by side.</span></h1>
+  </div>
+  <div style="background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;padding:48px 56px;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:40px 32px">
+    <sc-for list="{{ shortA }}" as="item" hint-placeholder-count="4">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
+        <div style="width:100%;max-width:140px;aspect-ratio:1"><dc-import name="MarkV3" concept="{{ item.concept }}" fg="#192e47" accent="{{ accL }}" hint-size="140px,140px"></dc-import></div>
+        <span style="font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#6B7A93;text-align:center">{{ item.id }} — {{ item.name }}</span>
+      </div>
+    </sc-for>
+    <sc-for list="{{ shortB }}" as="item" hint-placeholder-count="2">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
+        <div style="width:100%;max-width:140px;aspect-ratio:1"><dc-import name="MarkV2" concept="{{ item.concept }}" fg="#192e47" accent="{{ accL }}" hint-size="140px,140px"></dc-import></div>
+        <span style="font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#6B7A93;text-align:center">{{ item.id }} — {{ item.name }}</span>
+      </div>
+    </sc-for>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px">
+    <sc-for list="{{ shortA }}" as="item" hint-placeholder-count="3">
+      <div id="{{ item.id }}" style="width:760px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="font-size:13px;font-weight:700;background:#192e47;color:#FFFFFF;padding:5px 12px;border-radius:999px">{{ item.id }}</span>
+          <span style="font-size:20px;font-weight:600">{{ item.name }}</span>
+        </div>
+        <p style="margin:0;font-size:15px;line-height:1.6;color:rgba(25,46,71,.7);min-height:48px">{{ item.desc }}</p>
+        <div style="height:280px;background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;display:flex;align-items:center;justify-content:center">
+          <div style="display:flex;align-items:center;gap:22px">
+            <div style="width:72px;height:72px"><dc-import name="MarkV3" concept="{{ item.concept }}" fg="#192e47" accent="{{ accL }}" hint-size="72px,72px"></dc-import></div>
+            <div style="display:flex;align-items:baseline;gap:.5em;font-size:30px;letter-spacing:.2em;line-height:1">
+              <span style="font-weight:500">MILLBROOKE</span>
+              <span style="font-weight:300;color:#4A6FA5">GROUP</span>
+            </div>
+          </div>
+        </div>
+        <div style="height:200px;background:#192e47;border-radius:2px;display:flex;align-items:center;justify-content:center">
+          <div style="display:flex;align-items:center;gap:18px">
+            <div style="width:58px;height:58px"><dc-import name="MarkV3" concept="{{ item.concept }}" fg="#FFFFFF" accent="{{ accD }}" hint-size="58px,58px"></dc-import></div>
+            <div style="display:flex;align-items:baseline;gap:.5em;font-size:24px;letter-spacing:.2em;line-height:1;color:#FFFFFF">
+              <span style="font-weight:500">MILLBROOKE</span>
+              <span style="font-weight:300;color:rgba(255,255,255,.7)">GROUP</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 150px 150px;gap:16px">
+          <div style="height:150px;background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+            <div style="width:56px;height:56px"><dc-import name="MarkV3" concept="{{ item.concept }}" fg="#192e47" accent="{{ accL }}" hint-size="56px,56px"></dc-import></div>
+            <div style="display:flex;gap:.5em;font-size:14px;letter-spacing:.2em;line-height:1">
+              <span style="font-weight:500">MILLBROOKE</span>
+              <span style="font-weight:300;color:#4A6FA5">GROUP</span>
+            </div>
+          </div>
+          <div style="height:150px;background:#192e47;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:88px;height:88px"><dc-import name="MarkV3" concept="{{ item.concept }}" fg="#FFFFFF" accent="{{ accD }}" hint-size="88px,88px"></dc-import></div></div>
+          <div style="height:150px;background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;display:flex;align-items:center;justify-content:center;gap:16px">
+            <div style="width:32px;height:32px"><dc-import name="MarkV3" concept="{{ item.concept }}" fg="#192e47" accent="{{ accL }}" hint-size="32px,32px"></dc-import></div>
+            <div style="width:16px;height:16px"><dc-import name="MarkV3" concept="{{ item.concept }}" fg="#192e47" accent="#192e47" hint-size="16px,16px"></dc-import></div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px">
+    <sc-for list="{{ shortB }}" as="item" hint-placeholder-count="3">
+      <div id="{{ item.id }}" style="width:760px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="font-size:13px;font-weight:700;background:#192e47;color:#FFFFFF;padding:5px 12px;border-radius:999px">{{ item.id }}</span>
+          <span style="font-size:20px;font-weight:600">{{ item.name }}</span>
+        </div>
+        <p style="margin:0;font-size:15px;line-height:1.6;color:rgba(25,46,71,.7);min-height:48px">{{ item.desc }}</p>
+        <div style="height:280px;background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;display:flex;align-items:center;justify-content:center">
+          <div style="display:flex;align-items:center;gap:22px">
+            <div style="width:72px;height:72px"><dc-import name="MarkV2" concept="{{ item.concept }}" fg="#192e47" accent="{{ accL }}" hint-size="72px,72px"></dc-import></div>
+            <div style="display:flex;align-items:baseline;gap:.5em;font-size:30px;letter-spacing:.2em;line-height:1">
+              <span style="font-weight:500">MILLBROOKE</span>
+              <span style="font-weight:300;color:#4A6FA5">GROUP</span>
+            </div>
+          </div>
+        </div>
+        <div style="height:200px;background:#192e47;border-radius:2px;display:flex;align-items:center;justify-content:center">
+          <div style="display:flex;align-items:center;gap:18px">
+            <div style="width:58px;height:58px"><dc-import name="MarkV2" concept="{{ item.concept }}" fg="#FFFFFF" accent="{{ accD }}" hint-size="58px,58px"></dc-import></div>
+            <div style="display:flex;align-items:baseline;gap:.5em;font-size:24px;letter-spacing:.2em;line-height:1;color:#FFFFFF">
+              <span style="font-weight:500">MILLBROOKE</span>
+              <span style="font-weight:300;color:rgba(255,255,255,.7)">GROUP</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 150px 150px;gap:16px">
+          <div style="height:150px;background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px">
+            <div style="width:56px;height:56px"><dc-import name="MarkV2" concept="{{ item.concept }}" fg="#192e47" accent="{{ accL }}" hint-size="56px,56px"></dc-import></div>
+            <div style="display:flex;gap:.5em;font-size:14px;letter-spacing:.2em;line-height:1">
+              <span style="font-weight:500">MILLBROOKE</span>
+              <span style="font-weight:300;color:#4A6FA5">GROUP</span>
+            </div>
+          </div>
+          <div style="height:150px;background:#192e47;border-radius:2px;display:flex;align-items:center;justify-content:center"><div style="width:88px;height:88px"><dc-import name="MarkV2" concept="{{ item.concept }}" fg="#FFFFFF" accent="{{ accD }}" hint-size="88px,88px"></dc-import></div></div>
+          <div style="height:150px;background:#FFFFFF;border:1px solid #DDE2EA;border-radius:2px;display:flex;align-items:center;justify-content:center;gap:16px">
+            <div style="width:32px;height:32px"><dc-import name="MarkV2" concept="{{ item.concept }}" fg="#192e47" accent="{{ accL }}" hint-size="32px,32px"></dc-import></div>
+            <div style="width:16px;height:16px"><dc-import name="MarkV2" concept="{{ item.concept }}" fg="#192e47" accent="#192e47" hint-size="16px,16px"></dc-import></div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;twoTone&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Two-tone mark (steel waves)&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const two = this.props.twoTone ?? true;
+    return {
+      accL: two ? '#4A6FA5' : '#192e47',
+      accD: two ? 'rgba(255,255,255,0.55)' : '#FFFFFF',
+      shortA: [
+        { id: '3a', concept: 'a', name: 'Radiant Disc', desc: 'A full disc with seven ray segments and a rising sun cut out of the sky. The closest to your first reference, but in brand navy and steel.' },
+        { id: '3b', concept: 'b', name: 'Halo', desc: 'A solid sun inside a broad halo ring, sitting on the horizon. A calmer, more architectural take on your second reference.' },
+        { id: '3d', concept: 'd', name: 'Segmented Halo', desc: 'A hybrid of 3a and 3b: the solid sun and broad halo of Halo, with the halo split into four even segments using the ray gaps of Radiant Disc.' },
+        { id: '3c', concept: 'c', name: 'Daybreak', desc: 'No rays. The sun is cut out of a solid navy sky as negative space. The most restrained option, and the strongest at small sizes.' }
+      ],
+      shortB: [
+        { id: '2c', concept: 'c', name: 'Solid Fan', desc: 'Five broad segments in place of rays. The heaviest silhouette, and the clearest at favicon and embroidery sizes.' },
+        { id: '2a', concept: 'a', name: 'Sunrise', desc: 'Seven tapered rays at even 22.5° steps. The most faithful refinement of the client draft.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

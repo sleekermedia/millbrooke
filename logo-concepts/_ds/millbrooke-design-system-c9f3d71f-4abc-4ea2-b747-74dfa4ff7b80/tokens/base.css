@@ -1,0 +1,17 @@
+/* Global behaviours from public/styles/global.css */
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--surface-page);color:var(--text-strong);margin:0;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--mb-steel)}
+.mb-fade{opacity:0;transform:translateY(16px);transition:opacity .7s ease-out,transform .7s ease-out}
+.mb-fade.is-in{opacity:1;transform:translateY(0)}
+@keyframes mb-slow-zoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+.mb-kenburns{animation:mb-slow-zoom 14s ease-out both}
+.mb-grid-overlay{background-image:linear-gradient(rgba(255,255,255,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.06) 1px,transparent 1px);background-size:64px 64px}
+@keyframes mb-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mb-marquee{animation:mb-marquee 45s linear infinite}
+.mb-field{width:100%;border:0;border-bottom:1px solid rgba(255,255,255,.25);background:transparent;padding:12px 0;color:#fff;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;border-radius:0}
+.mb-field:focus{border-color:#fff}
+.mb-field::placeholder{color:rgba(255,255,255,.4)}
+select.mb-field{appearance:none;color-scheme:dark}
+select.mb-field option{background-color:#192e47;color:#fff}

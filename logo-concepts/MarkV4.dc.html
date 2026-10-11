@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<svg viewBox="4 4 92 92" width="100%" height="100%" style="display:block" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <defs><clipPath id="{{ clipId }}"><circle cx="{{ clipX }}" cy="{{ clipY }}" r="{{ innerR }}"></circle></clipPath></defs>
+  <path d="{{ ring }}" stroke="{{ fg }}" stroke-width="{{ sw }}"></path>
+  <path d="{{ sun }}" stroke="{{ fg }}" stroke-width="{{ sw }}"></path>
+  <g clip-path="url(#{{ clipId }})">
+    <path d="{{ horizon }}" stroke="{{ fg }}" stroke-width="{{ sw }}"></path>
+    <path d="{{ waves }}" stroke="{{ accent }}" stroke-width="{{ sw }}"></path>
+  </g>
+</svg>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:200,&quot;height&quot;:200},&quot;concept&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;],&quot;default&quot;:&quot;a&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;fg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#192e47&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#4A6FA5&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  clipId = 'm4' + Math.random().toString(36).slice(2, 8);
+  renderVals() {
+    const c = this.props.concept ?? 'a';
+    const fg = this.props.fg ?? '#192e47';
+    const sw = 2.8, cx = 50, cy = 50, H = 54, f = n => n.toFixed(2);
+    const circ = (x, y, r) => `M${f(x - r)},${f(y)}a${r},${r} 0 1 0 ${2 * r},0a${r},${r} 0 1 0 ${-2 * r},0`;
+    const arc = (x, y, r) => `M${f(x - r)},${f(y)}A${r},${r} 0 0 1 ${f(x + r)},${f(y)}`;
+    const wave = (y, amp = 2.6, len = 18) => { let d = `M-10,${y}`; for (let x = -10; x < 110; x += len) d += `q${len / 4},${-amp} ${len / 2},0q${len / 4},${amp} ${len / 2},0`; return d; };
+    let ring = '', sun = '', innerR = 40, clipX = 50, clipY = 50, horizon = `M0,${H}H100`;
+    if (c === 'a') {
+      ring = circ(cx, cy, 43) + circ(cx + 1.5, cy + 4, 37);
+      sun = arc(cx, H, 11) + arc(cx, H, 19);
+      clipX = cx + 1.5; clipY = cy + 4; innerR = 37;
+    } else if (c === 'b') {
+      // hand-drawn style overlapping loop: spiral sweeping ~400°, radius 43 → 36
+      const pts = [], steps = 180, start = 200, sweep = 380;
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps, th = (start - sweep * t) * Math.PI / 180, r = 43 - 6 * t, oy = 4 * t;
+        pts.push(`${f(cx + r * Math.cos(th))},${f(cy + oy - r * Math.sin(th))}`);
+      }
+      ring = 'M' + pts.join('L');
+      sun = arc(cx, H, 11) + arc(cx, H, 19);
+      clipY = cy + 4; innerR = 37;
+    } else {
+      ring = circ(cx, cy, 43);
+      [12, 20, 28].forEach(r => { sun += arc(cx, H, r); });
+      innerR = 43;
+    }
+    const waves = wave(65, 3, 24) + wave(76, 3, 24);
+    return { fg, accent: this.props.accent ?? fg, sw, clipId: this.clipId, ring, sun, horizon, waves, innerR, clipX, clipY };
+  }
+}
+</script>
+</body>
+</html>

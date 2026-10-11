@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<svg viewBox="0 0 100 100" width="100%" height="100%" style="display:block;overflow:visible" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<sc-if value="{{ isA }}" hint-placeholder-val="{{ false }}">
+  <g stroke="{{ fg }}" stroke-width="3.2">
+    <path d="M35.22,49.88L13.04,40.69M38.69,44.69L21.72,27.72M43.88,41.22L34.69,19.04M50,40L50,16M56.12,41.22L65.31,19.04M61.31,44.69L78.28,27.72M64.78,49.88L86.96,40.69"></path>
+    <path d="M39,56A11,11 0 0 1 61,56"></path>
+  </g>
+  <g stroke="{{ accent }}" stroke-width="3.2">
+    <path d="M14,66q9,-4 18,0t18,0t18,0t18,0"></path>
+    <path d="M23,76q9,-4 18,0t18,0t18,0"></path>
+    <path d="M32,86q9,-4 18,0t18,0"></path>
+  </g>
+</sc-if>
+<sc-if value="{{ isB }}" hint-placeholder-val="{{ false }}">
+  <defs><clipPath id="{{ clipId }}"><circle cx="50" cy="50" r="42"></circle></clipPath></defs>
+  <circle cx="50" cy="50" r="47" stroke="{{ fg }}" stroke-width="1.8"></circle>
+  <g stroke="{{ fg }}" stroke-width="1.9">
+    <path d="M36.48,50.37L15.22,44.68M37.88,47L18.82,36M40.1,44.1L24.55,28.55M43,41.88L32,22.82M46.37,40.48L40.68,19.22M50,40L50,18M53.63,40.48L59.32,19.22M57,41.88L68,22.82M59.9,44.1L75.45,28.55M62.12,47L81.18,36M63.52,50.37L84.78,44.68"></path>
+  </g>
+  <path d="M41,54A9,9 0 0 1 59,54Z" fill="{{ fg }}"></path>
+  <g clip-path="url(#{{ clipId }})" stroke="{{ accent }}" stroke-width="1.9">
+    <path d="M0,54H100"></path>
+    <path d="M0,63q6.25,-3 12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0"></path>
+    <path d="M0,71q6.25,-3 12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0"></path>
+    <path d="M0,79q6.25,-3 12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0"></path>
+    <path d="M0,87q6.25,-3 12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0t12.5,0"></path>
+  </g>
+</sc-if>
+<sc-if value="{{ isC }}" hint-placeholder-val="{{ false }}">
+  <path d="M10,58A40,40 0 0 1 90,58Z" fill="{{ fg }}"></path>
+  <path d="M37,58A13,13 0 0 1 63,58Z" fill="{{ bg }}"></path>
+  <path d="M43,58A7,7 0 0 1 57,58Z" fill="{{ fg }}"></path>
+  <path d="M39.61,52L13.63,37M44,47.61L29,21.63M50,46L50,16M56,47.61L71,21.63M60.39,52L86.37,37" stroke="{{ bg }}" stroke-width="3" stroke-linecap="butt"></path>
+  <g stroke="{{ accent }}" stroke-width="4.5">
+    <path d="M10,70q10,-5 20,0t20,0t20,0t20,0"></path>
+    <path d="M20,81q10,-5 20,0t20,0t20,0"></path>
+  </g>
+</sc-if>
+<sc-if value="{{ isD }}" hint-placeholder-val="{{ false }}">
+  <g stroke="{{ fg }}" stroke-width="2.6">
+    <path d="M38,56A12,12 0 0 1 62,56"></path>
+    <path d="M27,56A23,23 0 0 1 73,56"></path>
+    <path d="M16,56A34,34 0 0 1 84,56"></path>
+    <path d="M8,56H92"></path>
+  </g>
+  <g stroke="{{ accent }}" stroke-width="2.6">
+    <path d="M16,66q8.5,-4 17,0t17,0t17,0t17,0"></path>
+    <path d="M27,76q11.5,-4 23,0t23,0"></path>
+  </g>
+</sc-if>
+</svg>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:200,&quot;height&quot;:200},&quot;concept&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;],&quot;default&quot;:&quot;a&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;fg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#192e47&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#4A6FA5&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;bg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FFFFFF&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  clipId = 'mc' + Math.random().toString(36).slice(2, 8);
+  renderVals() {
+    const c = this.props.concept ?? 'a';
+    const fg = this.props.fg ?? '#192e47';
+    return { isA: c === 'a', isB: c === 'b', isC: c === 'c', isD: c === 'd', fg, accent: this.props.accent ?? fg, bg: this.props.bg ?? '#FFFFFF', clipId: this.clipId };
+  }
+}
+</script>
+</body>
+</html>

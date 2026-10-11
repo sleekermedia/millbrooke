@@ -1,0 +1,466 @@
+---
+// Standalone client presentation page — deliberately NOT part of the site nav,
+// does not use Layout.astro, and is excluded from search engines.
+// Marks are regenerated as live inline SVG from the concept geometry.
+
+const FG = 'var(--mk-fg)';
+const ACC = 'var(--mk-accent)';
+
+let uid = 0;
+const nextId = (p: string) => `${p}${(++uid).toString(36)}`;
+
+const f = (n: number) => n.toFixed(2);
+
+/* ---------- Mark family V2: sun + rays, flat sea ---------- */
+function markV2(concept: string) {
+  const cx = 50, cy = 52;
+  const pt = (r: number, deg: number) => {
+    const t = (deg * Math.PI) / 180;
+    return `${f(cx + r * Math.cos(t))},${f(cy - r * Math.sin(t))}`;
+  };
+  const sector = (r1: number, r2: number, a1: number, a2: number) =>
+    `M${pt(r1, a1)}L${pt(r2, a1)}A${r2},${r2} 0 0 0 ${pt(r2, a2)}L${pt(r1, a2)}A${r1},${r1} 0 0 1 ${pt(r1, a1)}Z`;
+
+  let rays = '', arcs = '', ring = '';
+  if (concept === 'a') {
+    for (let i = 1; i <= 7; i++) { const a = i * 22.5; rays += sector(18, 40, a - 4, a + 4); }
+  }
+  if (concept === 'b') {
+    ring = `M${cx - 43},${cy}A43,43 0 1 1 ${cx + 43},${cy}A43,43 0 1 1 ${cx - 43},${cy}`;
+    for (let i = 1; i <= 7; i++) { const a = i * 22.5; rays += sector(17, 37, a - 4, a + 4); }
+  }
+  if (concept === 'c') {
+    for (let i = 0; i < 5; i++) { const a = 36 * i; rays += sector(18, 40, a + 2.5, a + 36 - 2.5); }
+  }
+  if (concept === 'd') {
+    [22, 31, 40].forEach((r) => { arcs += `M${cx - r},${cy}A${r},${r} 0 0 1 ${cx + r},${cy}`; });
+  }
+
+  const R = concept === 'b' ? 37 : 40;
+  let waves = '';
+  [61, 70, 79, 88].forEach((y) => {
+    waves += `M-5,${y}`;
+    for (let x = -5; x < 105; x += 20) waves += 'q5,-2.5 10,0q5,2.5 10,0';
+  });
+
+  const clipId = nextId('c2');
+  return `<svg viewBox="6 8 88 88" width="100%" height="100%" style="display:block" fill="none" aria-hidden="true">
+<defs><clipPath id="${clipId}"><circle cx="50" cy="52" r="${R}"/></clipPath></defs>
+<path d="M${cx - 13},${cy}A13,13 0 0 1 ${cx + 13},${cy}Z" style="fill:${FG}"/>
+<path d="${rays}" style="fill:${FG}"/>
+<path d="${arcs}" style="stroke:${FG}" stroke-width="3.5"/>
+<path d="${ring}" style="stroke:${FG}" stroke-width="1.75"/>
+<g clip-path="url(#${clipId})">
+  <path d="M0,52H100" style="stroke:${FG}" stroke-width="3.5"/>
+  <path d="${waves}" style="stroke:${ACC}" stroke-width="3.5"/>
+</g>
+</svg>`;
+}
+
+/* ---------- Mark family V3: solid disc, sky above / sea below ---------- */
+function markV3(concept: string) {
+  let rayGaps = '';
+  for (let k = 1; k <= 6; k++) {
+    const t = (k * (180 / 7) * Math.PI) / 180, x = Math.cos(t), y = Math.sin(t);
+    rayGaps += `M${f(50 + 15 * x)},${f(50 - 15 * y)}L${f(50 + 46 * x)},${f(50 - 46 * y)}`;
+  }
+  let haloGaps = '';
+  for (let k = 1; k <= 3; k++) {
+    const t = (k * 45 * Math.PI) / 180, x = Math.cos(t), y = Math.sin(t);
+    haloGaps += `M${f(50 + 20 * x)},${f(50 - 20 * y)}L${f(50 + 46 * x)},${f(50 - 46 * y)}`;
+  }
+
+  let cut = '';
+  if (concept === 'a') {
+    cut = `<g fill="none" stroke="#000" stroke-width="3.2">
+      <path d="M34.5,50A15.5,15.5 0 0 1 65.5,50"/>
+      <path d="${rayGaps}"/>
+    </g>`;
+  } else if (concept === 'b') {
+    cut = `<path d="M26,50A24,24 0 0 1 74,50Z" fill="#000"/>`;
+  } else if (concept === 'd') {
+    cut = `<path d="M26,50A24,24 0 0 1 74,50Z" fill="#000"/>
+      <path d="${haloGaps}" fill="none" stroke="#000" stroke-width="3.2"/>`;
+  } else if (concept === 'c') {
+    cut = `<path d="M36,50A14,14 0 0 1 64,50Z" fill="#000"/>`;
+  }
+
+  const hasSun = concept === 'b' || concept === 'd';
+  const maskId = nextId('m3');
+  return `<svg viewBox="8 8 84 84" width="100%" height="100%" style="display:block" aria-hidden="true">
+<defs><mask id="${maskId}" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+  <rect x="0" y="0" width="100" height="100" fill="#fff"/>
+  <g fill="none" stroke="#000" stroke-width="3.2">
+    <path d="M0,50H100"/>
+    <path d="M-20,63q10,-5 20,0t20,0t20,0t20,0t20,0t20,0t20,0"/>
+    <path d="M-20,76q10,-5 20,0t20,0t20,0t20,0t20,0t20,0t20,0"/>
+  </g>
+  ${cut}
+</mask></defs>
+<g mask="url(#${maskId})">
+  <path d="M10,50A40,40 0 0 1 90,50Z" style="fill:${FG}"/>
+  <path d="M10,50A40,40 0 0 0 90,50Z" style="fill:${ACC}"/>
+</g>
+${hasSun ? `<path d="M36.1,48.4A14,14 0 0 1 63.9,48.4Z" style="fill:${FG}"/>` : ''}
+</svg>`;
+}
+
+/* ---------- Mark family V5: the client draft redrawn — wordmark inside the mark ---------- */
+function markV5(withText: boolean) {
+  const cx = 50, cy = 50;
+  const pt = (r: number, d: number) => {
+    const t = (d * Math.PI) / 180;
+    return `${f(cx + r * Math.cos(t))},${f(cy - r * Math.sin(t))}`;
+  };
+  const wedge = (a: number, hw: number, r1: number, r2: number) =>
+    `M${pt(r1, a - hw)}L${pt(r2, a - hw)}A${r2},${r2} 0 0 0 ${pt(r2, a + hw)}L${pt(r1, a + hw)}A${r1},${r1} 0 0 1 ${pt(r1, a - hw)}Z`;
+
+  // the lockup drops the 0° ray so the wordmark can run out along the horizon
+  const angles = withText
+    ? [180, 157.5, 135, 112.5, 90, 67.5, 45, 22.5]
+    : [180, 157.5, 135, 112.5, 90, 67.5, 45, 22.5, 0];
+  let rays = '';
+  angles.forEach((a) => { rays += wedge(a, 5, 21, 41); });
+
+  const wave = (y: number) => {
+    let d = `M-10,${y}`;
+    for (let x = -10; x < 110; x += 20) d += 'q5,-2.4 10,0q5,2.4 10,0';
+    return d;
+  };
+  const waves = wave(71) + wave(79.5) + wave(88);
+  const topWave = wave(62.5);
+
+  const cid = nextId('m5'), cid2 = cid + 'b';
+  return `<svg viewBox="${withText ? '8 8 172 84' : '8 8 84 84'}" width="100%" height="100%" style="display:block;overflow:visible" fill="none" aria-hidden="true">
+<defs>
+  <clipPath id="${cid}"><circle cx="50" cy="50" r="41"/></clipPath>
+  <clipPath id="${cid2}"><rect x="0" y="0" width="29" height="100"/></clipPath>
+</defs>
+<path d="${rays}" style="fill:${FG}"/>
+<g clip-path="url(#${cid})" style="stroke:${ACC}" stroke-width="4">
+  <path d="${waves}"/>
+  <path d="${topWave}"${withText ? ` clip-path="url(#${cid2})"` : ''}/>
+</g>
+${withText ? `<text x="33" y="60.5" textLength="142" lengthAdjust="spacing" style="font-family:Montserrat,sans-serif;font-size:15px;font-weight:500;fill:${FG}">Millbrooke<tspan dx="4" style="font-weight:300;fill:var(--mk-word)">Group</tspan></text>` : ''}
+</svg>`;
+}
+
+const render = (family: string, concept: string) =>
+  family === 'v2' ? markV2(concept) : markV3(concept);
+
+type Concept = { id: string; family: string; concept: string; name: string };
+
+const shortlist: Concept[] = [
+  { id: '5a', family: 'v5', concept: 'a', name: 'Client Sunrise' },
+  { id: '3a', family: 'v3', concept: 'a', name: 'Radiant Disc' },
+  { id: '3b', family: 'v3', concept: 'b', name: 'Halo' },
+  { id: '3d', family: 'v3', concept: 'd', name: 'Segmented Halo' },
+  { id: '3c', family: 'v3', concept: 'c', name: 'Daybreak' },
+  { id: '2c', family: 'v2', concept: 'c', name: 'Solid Fan' },
+  { id: '2a', family: 'v2', concept: 'a', name: 'Sunrise' },
+];
+
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Logo Concepts — Millbrooke Group</title>
+<meta name="description" content="Logo direction presentation for Millbrooke Group." />
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#192e47; --steel:#4A6FA5; --mist:#F0F2F5;
+    --slate:#6B7A93; --line:#DDE2EA; --white:#fff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--mist);color:var(--navy);
+    font-family:'Montserrat',ui-sans-serif,system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* --- mark theming --- */
+  .mk{--mk-fg:var(--navy);--mk-accent:var(--steel);--mk-word:var(--steel);display:block}
+  .mk.inv{--mk-fg:var(--white);--mk-accent:rgba(255,255,255,.55);--mk-word:rgba(255,255,255,.7)}
+  .mk.mono{--mk-accent:var(--mk-fg);--mk-word:var(--mk-fg)}
+  body.is-mono .mk{--mk-accent:var(--mk-fg);--mk-word:var(--mk-fg)}
+
+  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--steel);margin:0}
+
+  /* --- header --- */
+  header.hero{background:var(--navy);color:#fff;padding:40px 0}
+  header.hero .eyebrow{color:rgba(255,255,255,.55)}
+
+  /* --- sticky control bar --- */
+  .bar{
+    position:sticky;top:0;z-index:20;background:rgba(240,242,245,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  }
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+  .jump{display:flex;gap:6px;flex-wrap:wrap}
+  .jump a{
+    font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--slate);text-decoration:none;padding:7px 11px;border:1px solid var(--line);
+    border-radius:999px;background:#fff;transition:all .2s;
+  }
+  .jump a:hover{color:#fff;background:var(--navy);border-color:var(--navy)}
+  .toggle{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);cursor:pointer;user-select:none}
+  .toggle input{position:absolute;opacity:0;pointer-events:none}
+  .switch{width:38px;height:21px;border-radius:999px;background:var(--navy);position:relative;transition:background .2s;flex:none}
+  .switch::after{content:'';position:absolute;top:3px;left:3px;width:15px;height:15px;border-radius:50%;background:#fff;transition:transform .2s}
+  .toggle input:checked + .switch{background:var(--slate)}
+  .toggle input:checked + .switch::after{transform:translateX(17px)}
+  .toggle input:focus-visible + .switch{outline:2px solid var(--steel);outline-offset:2px}
+
+  /* --- sections --- */
+  section.block{padding:72px 0}
+  .sechead{margin-bottom:28px}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:2px}
+
+  /* --- overview grid --- */
+  .overview{padding:48px 40px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:40px 24px}
+  .ov-item{display:flex;flex-direction:column;align-items:center;gap:18px;text-decoration:none;color:inherit}
+  .ov-item .mk{width:100%;max-width:120px;aspect-ratio:1;transition:transform .3s}
+  .ov-item:hover .mk{transform:translateY(-4px)}
+  .ov-item span{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--slate);text-align:center;line-height:1.5}
+
+  /* --- concept detail --- */
+  .concepts{display:flex;flex-direction:column;gap:64px}
+  .concept{scroll-margin-top:84px}
+  .chead{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .pill{font-size:12px;font-weight:700;background:var(--navy);color:#fff;padding:5px 13px;border-radius:999px;letter-spacing:.06em}
+  .chead h3{margin:0;font-size:22px;font-weight:600;letter-spacing:-.01em}
+
+  .panels{margin-top:26px;display:grid;gap:16px;grid-template-columns:1fr 1fr}
+  .panel{display:flex;align-items:center;justify-content:center;padding:28px;min-height:210px}
+  .panel.dark{background:var(--navy);border-color:var(--navy)}
+
+  .lockup{display:flex;align-items:center;gap:clamp(14px,2.2vw,22px)}
+  .lockup .mk{width:clamp(48px,7vw,70px);aspect-ratio:1;flex:none}
+  .wordmark{display:flex;align-items:baseline;gap:.5em;font-size:clamp(17px,2.5vw,26px);letter-spacing:.2em;line-height:1;white-space:nowrap}
+  .wordmark b{font-weight:500}
+  .wordmark i{font-style:normal;font-weight:300;color:var(--steel)}
+  .panel.dark .wordmark{color:#fff}
+  .panel.dark .wordmark i{color:rgba(255,255,255,.7)}
+
+  .stacked{display:flex;flex-direction:column;align-items:center;gap:16px}
+  .stacked .mk{width:56px;aspect-ratio:1}
+  .stacked .wordmark{font-size:13px}
+
+  .sizes{display:flex;align-items:center;justify-content:center;gap:26px}
+  .size{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .size .mk{aspect-ratio:1}
+  .size small{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--slate)}
+
+  .subgrid{display:grid;gap:16px;grid-template-columns:1fr 1fr 1fr;margin-top:16px}
+
+  /* --- 5a: wordmark lives inside the mark, so it needs wider panels --- */
+  .panel.wide{min-height:300px}
+  .wordlock{width:100%;max-width:440px;aspect-ratio:172/84}
+  .panel.wide-sm{min-height:190px}
+  .wordlock-sm{width:100%;max-width:220px;aspect-ratio:172/84}
+
+  /* --- reference --- */
+  .refgrid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+  .ref{padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;min-height:260px}
+  .ref img{max-width:100%;max-height:170px;object-fit:contain}
+  .ref span{font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--slate);text-align:center}
+
+  /* --- footer --- */
+  footer{background:var(--navy);color:rgba(255,255,255,.7);padding:36px 0;font-size:13px;line-height:1.7}
+  footer p{margin:0}
+  footer a{color:#fff}
+
+  @media (max-width:1100px){
+    .overview{grid-template-columns:repeat(4,minmax(0,1fr))}
+  }
+  @media (max-width:860px){
+    .panels,.subgrid,.refgrid{grid-template-columns:1fr}
+    .overview{padding:36px 24px}
+    header.hero{padding:32px 0}
+    section.block{padding:52px 0}
+  }
+  @media (max-width:600px){
+    /* stack the lockup so the wordmark never forces the page wider than the screen */
+    .lockup{flex-direction:column;gap:14px}
+    .lockup .mk{width:54px}
+    .wordmark{font-size:15px;letter-spacing:.16em}
+    .panel{padding:22px;min-height:180px}
+    .overview{grid-template-columns:repeat(2,1fr);gap:32px 20px}
+    .sizes{gap:20px}
+  }
+  @media print{
+    .bar{display:none}
+    body{background:#fff}
+    .concept{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Millbrooke Group — Logo Concepts</p>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <nav class="jump">
+      {shortlist.map((c) => <a href={`#${c.id}`}>{c.id}</a>)}
+    </nav>
+    <label class="toggle">
+      <input type="checkbox" id="mono-toggle" />
+      <span class="switch"></span>
+      <span>Single colour</span>
+    </label>
+  </div>
+</div>
+
+<section class="block">
+  <div class="wrap">
+    <div class="sechead">
+      <p class="eyebrow">01 — Shortlist</p>
+    </div>
+    <div class="card overview">
+      {shortlist.map((c) => (
+        <a class="ov-item" href={`#${c.id}`}>
+          <div class="mk" set:html={c.family === 'v5' ? markV5(false) : render(c.family, c.concept)} />
+          <span>{c.id} — {c.name}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="concepts">
+      {shortlist.map((c) => (
+        <article class="concept" id={c.id}>
+          <div class="chead">
+            <span class="pill">{c.id}</span>
+            <h3>{c.name}</h3>
+          </div>
+          {c.family === 'v5' ? (
+            <>
+              <div class="panels">
+                <div class="card panel wide">
+                  <div class="mk wordlock" set:html={markV5(true)} />
+                </div>
+                <div class="card panel dark wide">
+                  <div class="mk inv wordlock" set:html={markV5(true)} />
+                </div>
+              </div>
+
+              <div class="subgrid">
+                <div class="card panel wide-sm">
+                  <div class="mk wordlock-sm" set:html={markV5(true)} />
+                </div>
+                <div class="card panel dark wide-sm">
+                  <div class="mk inv" style="width:96px;aspect-ratio:1" set:html={markV5(false)} />
+                </div>
+                <div class="card panel wide-sm">
+                  <div class="sizes">
+                    <div class="size">
+                      <div class="mk" style="width:32px" set:html={markV5(false)} />
+                      <small>32px</small>
+                    </div>
+                    <div class="size">
+                      <div class="mk mono" style="width:16px" set:html={markV5(false)} />
+                      <small>16px mono</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div class="panels">
+                <div class="card panel">
+                  <div class="lockup">
+                    <div class="mk" set:html={render(c.family, c.concept)} />
+                    <div class="wordmark"><b>MILLBROOKE</b><i>GROUP</i></div>
+                  </div>
+                </div>
+                <div class="card panel dark">
+                  <div class="lockup">
+                    <div class="mk inv" set:html={render(c.family, c.concept)} />
+                    <div class="wordmark"><b>MILLBROOKE</b><i>GROUP</i></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="subgrid">
+                <div class="card panel" style="min-height:170px">
+                  <div class="stacked">
+                    <div class="mk" set:html={render(c.family, c.concept)} />
+                    <div class="wordmark"><b>MILLBROOKE</b><i>GROUP</i></div>
+                  </div>
+                </div>
+                <div class="card panel dark" style="min-height:170px">
+                  <div class="mk inv" style="width:84px;aspect-ratio:1" set:html={render(c.family, c.concept)} />
+                </div>
+                <div class="card panel" style="min-height:170px">
+                  <div class="sizes">
+                    <div class="size">
+                      <div class="mk" style="width:32px" set:html={render(c.family, c.concept)} />
+                      <small>32px</small>
+                    </div>
+                    <div class="size">
+                      <div class="mk mono" style="width:16px" set:html={render(c.family, c.concept)} />
+                      <small>16px mono</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="sechead">
+      <p class="eyebrow">02 — For reference</p>
+    </div>
+    <div class="refgrid">
+      <div class="card ref">
+        <img src="/assets/Millbrooke-default-on-light.png" alt="Current Millbrooke logo" />
+        <span>Current mark, in use today</span>
+      </div>
+      <div class="card ref">
+        <img src="/logo-concepts/client-draft.png" alt="Original client logo draft" />
+        <span>Original draft supplied</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Millbrooke Group — logo concepts. <a href="mailto:admin@millbrooke.com.au">admin@millbrooke.com.au</a></p>
+  </div>
+</footer>
+
+<script is:inline>
+  document.getElementById('mono-toggle').addEventListener('change', function (e) {
+    document.body.classList.toggle('is-mono', e.target.checked);
+  });
+</script>
+
+</body>
+</html>

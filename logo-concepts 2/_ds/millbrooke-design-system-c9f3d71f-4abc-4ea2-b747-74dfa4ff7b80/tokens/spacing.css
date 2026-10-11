@@ -1,0 +1,31 @@
+:root{
+  /* Tailwind 4px scale as used */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px;
+  --space-8:32px; --space-10:40px; --space-12:48px; --space-14:56px; --space-16:64px;
+  --space-20:80px; --space-24:96px; --space-28:112px; --space-32:128px; --space-40:160px; --space-48:192px;
+
+  /* Layout */
+  --container-max:1280px; /* @kind spacing */     /* max-w-7xl */
+  --container-narrow:1152px; /* @kind spacing */  /* max-w-6xl */
+  --gutter:24px; /* @kind spacing */              /* px-6 */
+  --gutter-lg:40px; /* @kind spacing */           /* lg:px-10 */
+  --section-y:96px; /* @kind spacing */           /* py-24 */
+  --section-y-lg:128px; /* @kind spacing */       /* lg:py-32 */
+  --grid-overlay-size:64px; /* @kind spacing */
+
+  /* Radii */
+  --radius-sm:2px;            /* rounded-sm: images, forms, tiles */
+  --radius-lg:16px;           /* rounded-2xl: pillar cards */
+  --radius-pill:9999px;       /* buttons, toast, icon rings */
+
+  /* Shadows */
+  --shadow-header:0 10px 30px rgba(0,0,0,.2);
+  --shadow-toast:0 10px 30px rgba(0,0,0,.15);
+  --shadow-2xl:0 25px 50px -12px rgba(0,0,0,.25);
+
+  /* Motion */
+  --ease-out:ease-out; /* @kind other */
+  --ease-drawer:cubic-bezier(0.22,1,0.36,1); /* @kind other */
+  --dur-fast:200ms; /* @kind other */ --dur-base:300ms; /* @kind other */ --dur-slow:500ms; /* @kind other */ --dur-fade:700ms; /* @kind other */
+  --blur-header:8px; /* @kind other */
+}
