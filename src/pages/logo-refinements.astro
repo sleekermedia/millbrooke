@@ -1,0 +1,396 @@
+---
+// Standalone client presentation page — deliberately NOT part of the site nav,
+// does not use Layout.astro, and is excluded from search engines.
+// Built on the exact letterforms from the client-supplied logo file.
+import { MILL, GROUP, MILL_BOX, GROUP_BOX } from '../data/mb-wordmark';
+
+const f = (n: number) => n.toFixed(2);
+
+const NAVY = 'var(--mk-fg)';
+const ACC = 'var(--mk-accent)';
+
+/* ---- the two decorative elements that 6b / 6c bring back into the frame ---- */
+const SUN_CX = 500, SUN_CY = 249, SUN_R = 15;
+const sunDisc = `M${SUN_CX - SUN_R},${SUN_CY}A${SUN_R},${SUN_R} 0 0 1 ${SUN_CX + SUN_R},${SUN_CY}Z`;
+let sunRays = '';
+[162, 126, 90, 54, 18].forEach((a) => {
+  const t = (a * Math.PI) / 180;
+  sunRays += `M${f(SUN_CX + 23 * Math.cos(t))},${f(SUN_CY - 23 * Math.sin(t))}L${f(SUN_CX + 31 * Math.cos(t))},${f(SUN_CY - 31 * Math.sin(t))}`;
+});
+
+const WX0 = 579, WX1 = 789.25, WN = 8, WL = (WX1 - WX0) / WN, WY = 251.25;
+let wave = `M${WX0},${WY}`;
+for (let i = 0; i < WN; i++) wave += `q${f(WL / 4)},-3.2 ${f(WL / 2)},0q${f(WL / 4)},3.2 ${f(WL / 2)},0`;
+
+/* ---- monogram construction ----
+   Letters are lifted straight out of the wordmark outlines: the M and the B from
+   MILLBROOKE, and the G from GROUP scaled up to sit on the same baseline. */
+const millSubs = MILL.split(/(?=M)/);
+const groupSubs = GROUP.split(/(?=M)/);
+
+// bounding box of a path, reading the coordinate stream as alternating x,y
+const bbox = (d: string) => {
+  const n = (d.match(/-?[\d.]+/g) ?? []).map(Number);
+  const xs = n.filter((_, i) => !(i % 2));
+  const ys = n.filter((_, i) => i % 2);
+  return [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+};
+// scale + translate every coordinate pair (safe: the outlines are all absolute M/C/L/Z)
+const xform = (d: string, k: number, dx: number, dy: number) => {
+  let i = 0;
+  return d.replace(/-?[\d.]+/g, (v) => (i++ % 2 === 0 ? +v * k + dx : +v * k + dy).toFixed(2));
+};
+
+const LETTER_M = millSubs[0];
+const LETTER_B = millSubs.slice(4, 7).join('');
+const LETTER_G = groupSubs[0];
+
+const capH = MILL_BOX[3] - MILL_BOX[1];
+const baseY = MILL_BOX[3];
+
+/* MB monogram (6e) — two letters inside a 200x200 frame */
+const mBox = bbox(LETTER_M);
+const bBox = bbox(millSubs[4]);
+const MB_GAP = 14;
+const mbTotal = (mBox[2] - mBox[0]) + MB_GAP + (bBox[2] - bBox[0]);
+const monoM = LETTER_M;
+const monoB = LETTER_B;
+const monoBT = `translate(${f(mBox[2] + MB_GAP - bBox[0])},0)`;
+const monoT = `translate(${f(92 - mbTotal * 0.4)},${f(101 - 25.4 * 0.8)}) scale(0.8) translate(${f(-mBox[0])},${f(-MILL_BOX[1])})`;
+
+/* MBG monogram (7a / 7b) — three letters laid out across a 200x100 field */
+const gScale = capH / (GROUP_BOX[3] - GROUP_BOX[1]);
+const letters = [
+  { d: LETTER_M, b: bbox(millSubs[0]), k: 1, by: baseY },
+  { d: LETTER_B, b: bbox(millSubs[4]), k: 1, by: baseY },
+  { d: LETTER_G, b: bbox(groupSubs[0]), k: gScale, by: GROUP_BOX[3] },
+];
+const MBG_GAP = 10;
+let cursor = 0;
+const placed = letters.map((L) => {
+  const w = (L.b[2] - L.b[0]) * L.k;
+  const p = { ...L, x: cursor };
+  cursor += w + MBG_GAP;
+  return p;
+});
+const mbgTotal = cursor - MBG_GAP;
+const mbgScale = 140 / mbgTotal;
+const mbgTop = 50 - (capH * mbgScale) / 2;
+let mbg = '';
+placed.forEach((L) => {
+  const k = L.k * mbgScale;
+  mbg += xform(L.d, k, 25 + L.x * mbgScale - L.b[0] * k, mbgTop + capH * mbgScale - L.by * k);
+});
+const gx = 25 + placed[2].x * mbgScale;
+const gw = 186 - gx;
+
+/* ---- the wordmark outlines, shared by every panel ---- */
+const wordmark = (stroke = 2.4) =>
+  `<path d="${MILL}" style="fill:${NAVY};stroke:${NAVY}" stroke-width="${stroke}" stroke-linejoin="round"/>` +
+  `<path d="${GROUP}" style="fill:${NAVY};stroke:${NAVY}" stroke-width="${stroke}" stroke-linejoin="round"/>`;
+
+const r = (x: number, y: number, w: number, h: number, accent = false) =>
+  `<rect x="${x}" y="${y}" width="${w}" height="${h}" style="fill:${accent ? ACC : NAVY}"/>`;
+
+/* ---- lockups ---- */
+type Lockup = { vb: string; parts: string };
+
+const refinedFrame = (accentFrame: boolean): Lockup => ({
+  vb: '70 60 750 220',
+  parts: wordmark() + r(97, 88, 694.5, 4.5, accentFrame) + r(787, 88, 4.5, 165.5, accentFrame) + r(579, 249, 212.5, 4.5, accentFrame),
+});
+
+const cornerBrackets = (accentFrame: boolean): Lockup => ({
+  vb: '50 60 760 220',
+  parts: wordmark() + r(67, 88, 110, 4.5, accentFrame) + r(67, 88, 4.5, 60, accentFrame)
+    + r(681.5, 249, 110, 4.5, accentFrame) + r(787, 193.5, 4.5, 60, accentFrame),
+});
+
+const clientRef = (): Lockup => ({
+  vb: '70 60 760 220',
+  parts: wordmark() + r(90, 87.75, 714.7, 4.5) + r(800.2, 87.75, 4.5, 168.75) + r(474.7, 252, 330, 4.5),
+});
+
+const sunriseFrame = (): Lockup => ({
+  vb: '70 60 750 220',
+  parts: wordmark() + r(97, 88, 694.5, 4.5) + r(787, 88, 4.5, 165.5) + r(440, 249, 351.5, 4.5)
+    + `<path d="${sunDisc}" style="fill:${ACC}"/>`
+    + `<path d="${sunRays}" style="stroke:${ACC}" stroke-width="4.5" stroke-linecap="round" fill="none"/>`,
+});
+
+const waterFrame = (): Lockup => ({
+  vb: '70 60 750 220',
+  parts: wordmark() + r(97, 88, 694.5, 4.5) + r(787, 88, 4.5, 163.5)
+    + `<path d="${wave}" style="stroke:${ACC}" stroke-width="4.5" stroke-linecap="round" fill="none"/>`,
+});
+
+const svg = (l: Lockup) =>
+  `<svg viewBox="${l.vb}" width="100%" style="display:block" aria-hidden="true">${l.parts}</svg>`;
+
+/* ---- monogram marks ---- */
+// MBG inside the refined frame; `s` scales the rule weight for the size shown
+const mbgFramed = (s: number, inset: number, accentFrame: boolean) =>
+  `<svg viewBox="0 0 200 100" width="100%" style="display:block" aria-hidden="true">
+<path d="${mbg}" style="fill:${NAVY};stroke:${NAVY}" stroke-width="${s <= 3 ? 1.6 : s <= 5 ? 2.6 : 4}" stroke-linejoin="round"/>
+${r(25, 12, 161, s, accentFrame)}${r(186 - inset, 12, s, 76, accentFrame)}${r(gx, 88 - s, gw, s, accentFrame)}
+</svg>`;
+
+// MBG inside corner brackets
+const mbgBracket = (s: number, inset: number, accentFrame: boolean) =>
+  `<svg viewBox="0 0 200 100" width="100%" style="display:block" aria-hidden="true">
+<path transform="translate(5,0)" d="${mbg}" style="fill:${NAVY};stroke:${NAVY}" stroke-width="${s <= 3 ? 1.6 : s <= 5 ? 2.6 : 4}" stroke-linejoin="round"/>
+${r(12, 12, 44, s, accentFrame)}${r(12, 12, s, 30, accentFrame)}${r(144, 88 - s, 44, s, accentFrame)}${r(188 - s, 58, s, 30, accentFrame)}
+</svg>`;
+
+// MB monogram (6e), square frame
+const mbSquare = (stroke: number, rule: number, inset: number) =>
+  `<svg viewBox="0 0 200 200" width="100%" style="display:block" aria-hidden="true">
+<g transform="${monoT}">
+  <path d="${monoM}" style="fill:${NAVY};stroke:${NAVY}" stroke-width="${stroke}" stroke-linejoin="round"/>
+  <path d="${monoB}" transform="${monoBT}" style="fill:${NAVY};stroke:${NAVY}" stroke-width="${stroke}" stroke-linejoin="round"/>
+</g>
+${r(24, 24, 155, rule)}${r(179 - inset, 24, rule, 155)}${r(100, 179 - rule, 79, rule)}
+</svg>`;
+
+const selected = [
+  { id: '7a', name: 'Refined Frame', lockup: refinedFrame, mono: mbgFramed },
+  { id: '7b', name: 'Corner Brackets', lockup: cornerBrackets, mono: mbgBracket },
+];
+
+const explorations = [
+  { id: '6a', name: 'Refined Frame', mk: svg(refinedFrame(false)) },
+  { id: '6b', name: 'Sunrise Frame', mk: svg(sunriseFrame()) },
+  { id: '6c', name: 'Water Frame', mk: svg(waterFrame()) },
+  { id: '6d', name: 'Corner Brackets', mk: svg(cornerBrackets(false)) },
+];
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Logo Refinements — Millbrooke Group</title>
+<meta name="description" content="Logo refinement round for Millbrooke Group." />
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#192e47; --steel:#4A6FA5; --mist:#F0F2F5;
+    --slate:#6B7A93; --line:#DDE2EA; --white:#fff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--mist);color:var(--navy);
+    font-family:'Montserrat',ui-sans-serif,system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* --- mark theming --- */
+  .mk{--mk-fg:var(--navy);--mk-accent:var(--steel);display:block;width:100%}
+  .mk.inv{--mk-fg:var(--white);--mk-accent:var(--steel)}
+  body.is-mono .mk{--mk-accent:var(--mk-fg)}
+
+  .eyebrow{font-size:11px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--steel);margin:0}
+
+  header.hero{background:var(--navy);color:#fff;padding:40px 0}
+  header.hero .eyebrow{color:rgba(255,255,255,.55)}
+
+  .bar{
+    position:sticky;top:0;z-index:20;background:rgba(240,242,245,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  }
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}
+  .jump{display:flex;gap:6px;flex-wrap:wrap}
+  .jump a{
+    font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--slate);text-decoration:none;padding:7px 11px;border:1px solid var(--line);
+    border-radius:999px;background:#fff;transition:all .2s;
+  }
+  .jump a:hover{color:#fff;background:var(--navy);border-color:var(--navy)}
+  .toggle{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);cursor:pointer;user-select:none}
+  .toggle input{position:absolute;opacity:0;pointer-events:none}
+  .switch{width:38px;height:21px;border-radius:999px;background:var(--navy);position:relative;transition:background .2s;flex:none}
+  .switch::after{content:'';position:absolute;top:3px;left:3px;width:15px;height:15px;border-radius:50%;background:#fff;transition:transform .2s}
+  .toggle input:checked + .switch{background:var(--slate)}
+  .toggle input:checked + .switch::after{transform:translateX(17px)}
+  .toggle input:focus-visible + .switch{outline:2px solid var(--steel);outline-offset:2px}
+
+  section.block{padding:72px 0}
+  .sechead{margin-bottom:28px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:2px}
+  .card.dark{background:var(--navy);border-color:var(--navy)}
+
+  .concepts{display:flex;flex-direction:column;gap:64px}
+  .concept{scroll-margin-top:84px}
+  .chead{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .pill{font-size:12px;font-weight:700;background:var(--navy);color:#fff;padding:5px 13px;border-radius:999px;letter-spacing:.06em}
+  .chead h3{margin:0;font-size:22px;font-weight:600;letter-spacing:-.01em}
+
+  /* a lockup panel holds one wide wordmark */
+  .panels{margin-top:22px;display:grid;gap:16px;grid-template-columns:1fr 1fr}
+  .lock{padding:34px 40px;display:flex;align-items:center;justify-content:center}
+
+  /* monogram row: full / reversed / medium / small */
+  .monos{margin-top:16px;padding:28px 40px;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+  .mono-a{width:150px}
+  .mono-b{width:150px;padding:9px;background:var(--navy);border-radius:2px}
+  .mono-c{width:100px}
+  .mono-d{width:58px}
+
+  /* exploration grid */
+  .exgrid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+  .excell{display:flex;flex-direction:column;gap:12px}
+  .excell .label{display:flex;align-items:baseline;gap:10px}
+  .excell .label b{font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--steel)}
+  .excell .label span{font-size:14px;font-weight:600}
+  .refcard{border:1px dashed var(--slate)}
+  .label.ref b{color:var(--slate)}
+
+  .squares{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+  .sq-a{width:150px}
+  .sq-b{width:68px;padding:6px;background:var(--navy);border-radius:2px}
+  .sq-c{width:36px}
+
+  footer{background:var(--navy);color:rgba(255,255,255,.7);padding:36px 0;font-size:13px;line-height:1.7}
+  footer p{margin:0}
+  footer a{color:#fff}
+
+  @media (max-width:900px){
+    .panels,.exgrid{grid-template-columns:1fr}
+    section.block{padding:52px 0}
+    .lock{padding:24px}
+    .monos{padding:22px 24px;gap:20px;justify-content:flex-start}
+  }
+  @media print{
+    .bar{display:none}
+    body{background:#fff}
+    .concept,.excell{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Millbrooke Group — Logo Refinements</p>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <nav class="jump">
+      {selected.map((c) => <a href={`#${c.id}`}>{c.id}</a>)}
+      {explorations.map((c) => <a href={`#${c.id}`}>{c.id}</a>)}
+      <a href="#6e">6e</a>
+      <a href="#ref">Ref</a>
+    </nav>
+    <label class="toggle">
+      <input type="checkbox" id="mono-toggle" />
+      <span class="switch"></span>
+      <span>Single colour</span>
+    </label>
+  </div>
+</div>
+
+<section class="block">
+  <div class="wrap">
+    <div class="sechead"><p class="eyebrow">01 — Selected directions</p></div>
+
+    <div class="concepts">
+      {selected.map((c) => (
+        <article class="concept" id={c.id}>
+          <div class="chead">
+            <span class="pill">{c.id}</span>
+            <h3>{c.name}</h3>
+          </div>
+
+          <div class="panels">
+            <div class="card lock">
+              <div class="mk" set:html={svg(c.lockup(false))} />
+            </div>
+            <div class="card dark lock">
+              <div class="mk inv" set:html={svg(c.lockup(true))} />
+            </div>
+          </div>
+
+          <div class="card monos">
+            <div class="mk mono-a" set:html={c.mono(3, 3, false)} />
+            <div class="mk inv mono-b" set:html={c.mono(3, 3, true)} />
+            <div class="mk mono-c" set:html={c.mono(5, 5, false)} />
+            <div class="mk mono-d" set:html={c.mono(7, 7, false)} />
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="sechead"><p class="eyebrow">02 — Frame explorations</p></div>
+
+    <div class="exgrid">
+      {explorations.map((c) => (
+        <div class="excell" id={c.id}>
+          <div class="card lock">
+            <div class="mk" set:html={c.mk} />
+          </div>
+          <div class="label"><b>{c.id}</b><span>{c.name}</span></div>
+        </div>
+      ))}
+
+      <div class="excell" id="6e">
+        <div class="card lock">
+          <div class="squares">
+            <div class="mk sq-a" set:html={mbSquare(2.4, 5, 0)} />
+            <div class="mk inv sq-b" set:html={mbSquare(3, 7, 2)} />
+            <div class="mk sq-c" set:html={mbSquare(5, 10, 5)} />
+          </div>
+        </div>
+        <div class="label"><b>6e</b><span>MB Monogram</span></div>
+      </div>
+
+      <div class="excell" id="6f">
+        <div class="card dark lock">
+          <div class="mk inv" set:html={svg(refinedFrame(true))} />
+        </div>
+        <div class="label"><b>6f</b><span>Reverse</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="sechead"><p class="eyebrow">03 — For reference</p></div>
+    <div class="exgrid">
+      <div class="excell" id="ref">
+        <div class="card refcard lock">
+          <div class="mk" set:html={svg(clientRef())} />
+        </div>
+        <div class="label ref"><b>Ref</b><span>Client file, as supplied</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Millbrooke Group — logo refinements. <a href="mailto:admin@millbrooke.com.au">admin@millbrooke.com.au</a></p>
+  </div>
+</footer>
+
+<script is:inline>
+  document.getElementById('mono-toggle').addEventListener('change', function (e) {
+    document.body.classList.toggle('is-mono', e.target.checked);
+  });
+</script>
+
+</body>
+</html>
